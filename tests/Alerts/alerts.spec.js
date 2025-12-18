@@ -10,4 +10,5 @@ test("Handle alerts", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Trigger an Alert" }).click();
+  await expect(page.locator("p", { hasText: "Triggered" })).toBeVisible();
 });
