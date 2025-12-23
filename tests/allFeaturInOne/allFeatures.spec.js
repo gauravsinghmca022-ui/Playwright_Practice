@@ -94,4 +94,31 @@ test.describe("All feature are included", () => {
     await newPage.waitForLoadState("networkidle");
     await expect(newPage).toHaveURL(/qaclickacademy/);
   });
+
+  //handle Switch To Alert Example
+
+  test("handle Switch To Alert Example", async ({ page }) => {
+    await page.getByPlaceholder("Enter Your Name").fill("Gaurav");
+    page.on("dialog", async (d) => {
+      expect(d.message()).toContain(
+        "Hello gaurav, share this practice page and share your knowledge"
+      );
+      await d.accept();
+    });
+    await page.waitForTimeout(5000);
+  });
+
+  // handle Switch To Alert Example of confirm
+
+  test("Switch To Alert Example confirm", async ({ page }) => {
+    await page.getByPlaceholder("Enter Your Name").fill("Jitesh");
+    await page.locator("#confirmbtn").click();
+    await page.waitForTimeout(5000);
+    page.on("dialog", async (d) => {
+      expect(d.message()).toContain("Jitesh");
+      await d.dismiss();
+    });
+
+    await page.waitForTimeout(5000);
+  });
 });
