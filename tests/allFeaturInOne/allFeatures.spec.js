@@ -46,7 +46,6 @@ test.describe("All feature are included", () => {
 
     const listOption = await page.$$('//ul[@class="G43f7e"]//li');
 
-    console.log(listOption);
     for (let options of listOption) {
       let optiontext = await options.textContent();
       if (optiontext.includes("Sachin")) {
@@ -62,5 +61,37 @@ test.describe("All feature are included", () => {
     await page.selectOption("#dropdown-class-example", "Option1");
     await expect(page.locator("#dropdown-class-example")).toBeVisible();
     await page.waitForTimeout(5000);
+  });
+
+  //handle CheckBox
+
+  test("handle CheckBox", async ({ page }) => {
+    await page.locator("#checkBoxOption2").check();
+    await expect(page.locator("#checkBoxOption2")).toBeChecked();
+  });
+
+  // handle Open multiple window
+  test("handle switch window", async ({ context, page }) => {
+    const [newPage] = await Promise.all([
+      context.waitForEvent("page"),
+      page.getByRole("button", { name: "Open Window" }).click(),
+    ]);
+
+    await newPage.waitForLoadState("networkidle");
+    await expect(
+      newPage.getByRole("link", { name: "Access all our Courses" })
+    ).toBeVisible();
+  });
+
+  //Handle Switch Switch Tab Example
+
+  test("handle Switch Tab Example", async ({ context, page }) => {
+    const [newPage] = await Promise.all([
+      context.waitForEvent("page"),
+      page.getByRole("link", { name: "Open Tab" }).click(),
+    ]);
+
+    await newPage.waitForLoadState("networkidle");
+    await expect(newPage).toHaveURL(/qaclickacademy/);
   });
 });
