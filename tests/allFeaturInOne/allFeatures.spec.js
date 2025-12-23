@@ -56,4 +56,11 @@ test.describe("All feature are included", () => {
     }
     await page.waitForTimeout(5000);
   });
+
+  //Handle Drop dropdown
+  test("handle DropDown", async ({ page }) => {
+    await page.selectOption("#dropdown-class-example", "Option1");
+    await expect(page.locator("#dropdown-class-example")).toBeVisible();
+    await page.waitForTimeout(5000);
+  });
 });
