@@ -121,4 +121,41 @@ test.describe("All feature are included", () => {
 
     await page.waitForTimeout(5000);
   });
+
+  //handle show Element Displayed Example
+
+  test("handle show Element Displayed Example", async ({ page }) => {
+    await page.getByText("Show").click();
+
+    await expect(page.getByPlaceholder("Hide/Show Example")).toBeVisible();
+  });
+
+  // handle Element Displayed Example
+  test("handle hide Element Displayed Example", async ({ page }) => {
+    await page.getByText("Hide").click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByPlaceholder("Hide/Show Example")).toBeHidden();
+  });
+
+  //handle Mouse Hover Example
+
+  test("handle Mouse Hover Example", async ({ page }) => {
+    await page.getByRole("button", { name: "Mouse Hover" }).hover();
+    await page.waitForTimeout(5000);
+
+    const hoverData = page.locator(
+      '//div[@class="mouse-hover-content"]//a[text()="Top"]'
+    );
+    await expect(hoverData).toBeVisible();
+  });
+
+  //handle Iframes
+  test("handle iframes", async ({ page }) => {
+    const iframes = page.frameLocator("#courses-iframe");
+
+    await iframes.getByRole("link", { name: "Browse Learning Paths" }).click();
+    await expect(
+      iframes.locator('//span[text()="Learning Journey"]')
+    ).toBeVisible();
+  });
 });
